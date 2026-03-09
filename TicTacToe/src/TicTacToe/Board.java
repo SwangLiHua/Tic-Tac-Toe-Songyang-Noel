@@ -38,7 +38,12 @@ public class Board {
 	}
 	
 	public void printGrid() {
-		
+		for(int row = 0; row < grid.length; row++) {
+			for(int col = 0; row < grid[0].length; col++) {
+				System.out.print(grid[row][col] + " ");
+			}
+			System.out.println();
+		}
 	}
 	
 	public void createRandomBoard() 
