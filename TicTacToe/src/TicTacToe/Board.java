@@ -41,8 +41,18 @@ public class Board {
 		
 	}
 	
-	public void createRandomBoard() {
-		
+	public void createRandomBoard() 
+	{
+		char[] options = {'E', 'X', 'O'};
+		for(int row = 0; row < grid.length; row++)
+		{
+			for(int col = 0; col < grid[0].length; col++)
+			{
+				int index = (int)(Math.random() * options.length);
+				grid[row][col] = options[index];
+			}
+		}
+		this.saveBoardToFile();
 	}
 	
 	
