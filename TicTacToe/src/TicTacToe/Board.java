@@ -33,8 +33,29 @@ public class Board {
 	}
 	
 	
-	public void saveBoardToFile() {
-		
+	public void saveBoardToFile() 
+	{
+		try
+		{
+			File file = new File("src/tictactoe/"+this.filename);
+			FileWriter writer = new FileWriter(file);
+			String boardContents = "";
+			for(int row = 0; row < grid.length; row++) 
+			{
+				for(int col = 0; row < grid[0].length; col++) 
+				{
+					if(col > 2) boardContents += grid[row][col]+",";
+					else boardContents += this.grid[row][col];
+				}
+				if(row < 2) boardContents += "\n";
+			}
+			writer.write(boardContents);
+			writer.close();
+		}
+		catch(Exception error)
+		{
+			error.printStackTrace();
+		}
 	}
 	
 	public void printGrid() {
