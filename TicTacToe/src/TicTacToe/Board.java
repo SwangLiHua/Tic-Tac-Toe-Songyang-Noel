@@ -29,7 +29,24 @@ public class Board {
 	
 	
 	public boolean isValidBoardFile() {
-		
+		try {
+			File file = new File("src/tictactoe/" + this.filename);
+			Scanner scanner = new Scanner(file);
+			while(scanner.hasNextLine()) {
+				String line = scanner.nextLine().trim();
+				if(!line.matches("[EXO], [EXO], [EXO]")) {
+					scanner.close();
+					return false;
+				}
+			}
+			scanner.close();
+			return true;
+				
+		} 
+		catch(Exception error) {
+			error.printStackTrace();
+			return false;
+		}
 	}
 	
 	
