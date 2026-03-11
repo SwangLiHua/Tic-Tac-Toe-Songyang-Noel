@@ -15,16 +15,34 @@ public class Board {
 	//non-default constructor
 	public Board(String filename) {
 		//set the file name
+		this.filename = filename;
+		File file = new File("src/tictactoe/" + this.filename);
+		if(isValidBoardFile()) {
+			loadBoardFromFile();
+		}
 		//if the board is valid then create the 3x3 grid
 		//and load the board from the file
 	}
 	
 	//loads the grid with the file contents
 	public void loadBoardFromFile() {
-		//use a scanner to read with the board values
+		try {//use a scanner to read with the board values
+		File file = new File("src/tictactoe/" + this.filename);
+		Scanner scanner = new Scanner(file);
+		while(scanner.hasNextLine()) {
+			String line = scanner.nextLine().trim();
+			System.out.print(line.charAt(0) + ",");
+			System.out.print(line.charAt(2) + ",");
+			System.out.print(line.charAt(4) + ",");
+		}
+		scanner.close();
+		}
 		//and populate the grid with the board values
 		//remember to close the scanner afterwards
 		//use isValidBoard method as a guide
+		catch(Exception error) {
+			error.printStackTrace();
+		}
 	}
 	
 	
