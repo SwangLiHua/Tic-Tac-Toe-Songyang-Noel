@@ -32,15 +32,25 @@ public class Board {
 		try {
 			File file = new File("src/tictactoe/" + this.filename);
 			Scanner scanner = new Scanner(file);
+			int xCount = 0, oCount= 0;
 			while(scanner.hasNextLine()) {
 				String line = scanner.nextLine().trim();
-				if(!line.matches("[EXO], [EXO], [EXO]")) {
+				if(!line.matches("[EXO], [EXO], [EXO]"))
+				{
 					scanner.close();
 					return false;
 				}
+				if(line.charAt(4) == 'X') xCount++;
+				if(line.charAt(2) == 'X') xCount++;
+				if(line.charAt(0) == 'X') xCount++;
+				if(line.charAt(4) == 'O') oCount++;
+				if(line.charAt(2) == 'O') oCount++;
+				if(line.charAt(0) == 'O') oCount++;
+				
+				
 			}
 			scanner.close();
-			return true;
+			return xCount == oCount || xCount == oCount + 1;
 				
 		} 
 		catch(Exception error) {
