@@ -62,7 +62,7 @@ public class Board {
 				if(line.charAt(2) == 'X') xCount++;
 				if(line.charAt(0) == 'X') xCount++;
 				if(line.charAt(4) == 'O') oCount++;
-				if(line.charAt(2) == 'O') oCount++;
+				if(line.charAt(2) == 'O') oCount++; 
 				if(line.charAt(0) == 'O') oCount++;
 				
 				
@@ -134,6 +134,26 @@ public class Board {
 		this.grid = clearedBoard;
 		this.saveBoardToFile();
 		}
+	
+	public char getCell(int row, int col)
+	{
+		return grid[row][col];
+	}
+
+	public void setCell(int row, int col, char player)
+	{
+		
+	}
+
+	public char[][] getGrid()
+	{
+		
+	}
+
+	public void setGrid(char[][] newGrid)
+	{
+		
+	}
 	
 	public static void main(String args[]) {
 		Board b = new Board("board.csv");
