@@ -143,7 +143,7 @@ public class Board {
 	public void setCell(int row, int col, char player)
 	{
 		grid[row][col] = player;
-		saveBoardToFile();
+		this.saveBoardToFile();
 	}
 
 	public char[][] getGrid()
@@ -154,7 +154,7 @@ public class Board {
 	public void setGrid(char[][] newGrid)
 	{
 		this.grid = newGrid;
-		saveBoardToFile();
+		this.saveBoardToFile();
 	}
 	
 	public static void main(String args[]) {
