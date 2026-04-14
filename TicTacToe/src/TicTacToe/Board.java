@@ -157,6 +157,46 @@ public class Board {
 		this.saveBoardToFile();
 	}
 	
+	public boolean checkWin(Board board, char player)
+	{
+		char[][] grid = board.getGrid();
+		
+		 for (int row = 0; row < grid.length; row++) 
+		 {
+		        if (grid[row][0] == player &&
+		            grid[row][1] == player &&
+		            grid[row][2] == player) 
+		        {
+		            return true;
+		        }
+		    }
+
+		    for (int col = 0; col < grid[0].length; col++) 
+		    {
+		        if (grid[0][col] == player &&
+		            grid[1][col] == player &&
+		            grid[2][col] == player) 
+		        {
+		            return true;
+		        }
+		    }
+		    if (grid[0][0] == player &&
+		            grid[1][1] == player &&
+		            grid[2][2] == player) {
+		            return true;
+		        }
+
+		        if (grid[0][2] == player &&
+		            grid[1][1] == player &&
+		            grid[2][0] == player) {
+		            return true;
+		        }
+
+		    return false;
+	}
+
+
+	
 	public static void main(String args[]) {
 		Board b = new Board("board.csv");
 		System.out.println(b.isValidBoardFile());
