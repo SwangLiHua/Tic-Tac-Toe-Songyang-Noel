@@ -126,6 +126,25 @@ public class Board {
 		this.saveBoardToFile();
 	}
 	
+	public boolean isDraw(Board board) {
+		
+		char[][] grid = board.getGrid();
+		for(int row = 0; row < grid.length; row++) {
+			for(int col = 0; col < grid[0].length; col++) {
+				if(grid[row][col] != 'E') {
+					return false;
+				}
+			}
+		}
+		if(checkWin(board, 'X') == true) {
+			return false;
+		}
+		else if(checkWin(board, 'O') == true){
+			return false;
+		}
+		return true;
+	}
+	
 	
 	public void clearBoard() {
 		char clearedBoard[][] = {{'E', 'E', 'E'},
