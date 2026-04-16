@@ -2,22 +2,16 @@ package tictactoe;
 
 public class GameLogic {
 
-	
-	//holds game play data in an instance variable
-	private char[][] grid;
-	
-	//holds game play data in a CSV file
-	private String filename;
-	
+
 	
 	
 	public boolean isGameOver(Board board) {
-		if(board.checkWin(board, 'X') == true) {
+		if(checkWin(board, 'X') == true) {
 			return true;
 		}
-		else if(board.checkWin(board, 'O') == true) {
+		else if(checkWin(board, 'O') == true) {
 			return true;
-		} else if(board.isDraw(board) == true) {
+		} else if(isDraw(board) == true) {
 			return true;
 		} else {
 			return false;
