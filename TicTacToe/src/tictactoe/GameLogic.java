@@ -108,4 +108,16 @@ public char getCurrentPlayer(Board board)
 }
 
 
+public boolean makeMove(Board board, int row, int col) {
+	char move = getCurrentPlayer(board);
+	if(board.getCell(row, col) != 'O' && board.getCell(row, col) != 'X' && board.isValidBoardFile() && row >= 0 && col >= 0) {
+		board.setCell(row, col, move);
+		board.saveBoardToFile();
+	} else {
+		return false;
+	}
+	return true;
+}
+
+
 }
