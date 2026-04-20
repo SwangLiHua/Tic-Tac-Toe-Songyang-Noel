@@ -75,4 +75,37 @@ public boolean isDraw(Board board) {
 		}
 		return true;
 	}
+
+public char getCurrentPlayer(Board board)
+{
+	char[][] grid = board.getGrid();
+	int xCount = 0;
+	int oCount = 0;
+	for(int row = 0; row < grid.length; row++)
+	{
+		for(int col = 0; col < grid[0].length; col++) 
+		{
+			if(board.getCell(row, col) == 'X')
+			{
+				xCount++;
+			}
+			else if(board.getCell(row, col) == 'O')
+			{
+				oCount++;
+			}
+			
+		}
+		
+		}
+	if(xCount == oCount)
+	{
+		return 'X';
+	}
+	else
+	{
+		return 'O';
+	}
+}
+
+
 }
