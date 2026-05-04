@@ -4,84 +4,134 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Board {
+
     private char[][] grid;
     private String filename;
 
     public Board(String filename) {
         this.filename = filename;
-        this.grid = new char[3][3];
-        // Default the board to Empty
-        for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 3; j++) grid[i][j] = 'E';
-        }
-        
-        if(isValidBoardFile()) {
+        grid = new char[3][3];
+
+        clearBoard();
+
+        if (isValidBoardFile()) {
             loadBoardFromFile();
-        } else {
-            saveBoardToFile();
         }
     }
+
+    // ---------------- CORE ----------------
+
+    public char getCell(int row, int col) {
+        return grid[row][col];
+    }
+
+    public char[][] getGrid() {
+        return grid;
+    }
+
+    public void setCell(int row, int col, char player) {
+        grid[row][col] = player;
+        saveBoardToFile(); // ONLY place saving happens
+    }
+
+    public void clearBoard() {
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                grid[r][c] = 'E';
+            }
+        }
+        saveBoardToFile();
+    }
+
+    // ---------------- FILE LOAD ----------------
 
     public void loadBoardFromFile() {
         try {
-            File file = new File("src/tictactoe/" + this.filename);
-            if (!file.exists()) return;
+            File file = new File("src/tictactoe/" + filename);
             Scanner scanner = new Scanner(file);
+
             int row = 0;
-            while(scanner.hasNextLine() && row < 3) {
-                String[] parts = scanner.nextLine().split(", ");
-                for(int col = 0; col < 3; col++) {
-                    grid[row][col] = parts[col].charAt(0);
+
+            while (scanner.hasNextLine() && row < 3) {
+                String[] parts = scanner.nextLine().split(",");
+
+                for (int col = 0; col < 3; col++) {
+                    grid[row][col] = parts[col].trim().charAt(0);
                 }
+
                 row++;
             }
+
             scanner.close();
-        } catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    // ---------------- FILE SAVE ----------------
 
     public void saveBoardToFile() {
         try {
-            File file = new File("src/tictactoe/" + this.filename);
-            FileWriter writer = new FileWriter(file);
-            StringBuilder sb = new StringBuilder();
-            for(int r = 0; r < 3; r++) {
-                for(int c = 0; c < 3; c++) {
-                    sb.append(grid[r][c]);
-                    if(c < 2) sb.append(", ");
-                }
-                if(r < 2) sb.append("\n");
+            FileWriter writer = new FileWriter("src/tictactoe/" + filename);
+
+            for (int r = 0; r < 3; r++) {
+                writer.write(
+                    grid[r][0] + ", " +
+                    grid[r][1] + ", " +
+                    grid[r][2]
+                );
+
+                if (r < 2) writer.write("\n");
             }
-            writer.write(sb.toString());
+
             writer.close();
-        } catch(Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // ---------------- VALIDATION ----------------
+
     public boolean isValidBoardFile() {
-        File file = new File("src/tictactoe/" + this.filename);
-        if (!file.exists()) return false;
-        try (Scanner scanner = new Scanner(file)) {
-            int lines = 0;
-            while(scanner.hasNextLine()) {
-                if(!scanner.nextLine().trim().matches("[EXO], [EXO], [EXO]")) return false;
-                lines++;
+        try {
+            File file = new File("src/tictactoe/" + filename);
+            Scanner scanner = new Scanner(file);
+
+            while (scanner.hasNextLine()) {
+                String[] parts = scanner.nextLine().split(",");
+
+                if (parts.length != 3) {
+                    scanner.close();
+                    return false;
+                }
+
+                for (String p : parts) {
+                    char c = p.trim().charAt(0);
+                    if (c != 'X' && c != 'O' && c != 'E') {
+                        scanner.close();
+                        return false;
+                    }
+                }
             }
-            return lines == 3;
-        } catch(Exception e) {
+
+            scanner.close();
+            return true;
+
+        } catch (Exception e) {
             return false;
         }
     }
 
-    public char getCell(int r, int c) { return grid[r][c]; }
-    public void setCell(int r, int c, char p) { grid[r][c] = p; saveBoardToFile(); }
-    public char[][] getGrid() { return grid; }
-    
-    public void clearBoard() {
-        for(int i = 0; i < 3; i++)
-            for(int j = 0; j < 3; j++) grid[i][j] = 'E';
-        saveBoardToFile();
+    // ---------------- DEBUG ----------------
+
+    public void printGrid() {
+        for (int r = 0; r < 3; r++) {
+            for (int c = 0; c < 3; c++) {
+                System.out.print(grid[r][c] + " ");
+            }
+            System.out.println();
+        }
     }
 }
