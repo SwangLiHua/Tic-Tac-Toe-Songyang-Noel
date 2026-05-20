@@ -1,6 +1,7 @@
 package tictactoe;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class Board {
@@ -12,14 +13,12 @@ public class Board {
         this.filename = filename;
         grid = new char[3][3];
 
-        clearBoard();
-
         if (isValidBoardFile()) {
             loadBoardFromFile();
+        } else {
+            clearBoard();
         }
     }
-
-    // ---------------- CORE ----------------
 
     public char getCell(int row, int col) {
         return grid[row][col];
@@ -31,7 +30,11 @@ public class Board {
 
     public void setCell(int row, int col, char player) {
         grid[row][col] = player;
-        saveBoardToFile(); // ONLY place saving happens
+        saveBoardToFile();
+    }
+
+    public void setCellNoSave(int row, int col, char player) {
+        grid[row][col] = player;
     }
 
     public void clearBoard() {
@@ -40,10 +43,9 @@ public class Board {
                 grid[r][c] = 'E';
             }
         }
+
         saveBoardToFile();
     }
-
-    // ---------------- FILE LOAD ----------------
 
     public void loadBoardFromFile() {
         try {
@@ -65,11 +67,9 @@ public class Board {
             scanner.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            clearBoard();
         }
     }
-
-    // ---------------- FILE SAVE ----------------
 
     public void saveBoardToFile() {
         try {
@@ -82,22 +82,24 @@ public class Board {
                     grid[r][2]
                 );
 
-                if (r < 2) writer.write("\n");
+                if (r < 2) {
+                    writer.write("\n");
+                }
             }
 
             writer.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Could not save board.");
         }
     }
-
-    // ---------------- VALIDATION ----------------
 
     public boolean isValidBoardFile() {
         try {
             File file = new File("src/tictactoe/" + filename);
             Scanner scanner = new Scanner(file);
+
+            int rowCount = 0;
 
             while (scanner.hasNextLine()) {
                 String[] parts = scanner.nextLine().split(",");
@@ -108,29 +110,38 @@ public class Board {
                 }
 
                 for (String p : parts) {
-                    char c = p.trim().charAt(0);
+                    String value = p.trim();
+
+                    if (value.length() != 1) {
+                        scanner.close();
+                        return false;
+                    }
+
+                    char c = value.charAt(0);
+
                     if (c != 'X' && c != 'O' && c != 'E') {
                         scanner.close();
                         return false;
                     }
                 }
+
+                rowCount++;
             }
 
             scanner.close();
-            return true;
+            return rowCount == 3;
 
         } catch (Exception e) {
             return false;
         }
     }
 
-    // ---------------- DEBUG ----------------
-
     public void printGrid() {
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 3; c++) {
                 System.out.print(grid[r][c] + " ");
             }
+
             System.out.println();
         }
     }
